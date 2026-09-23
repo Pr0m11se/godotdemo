@@ -1,0 +1,48 @@
+[gd_scene format=3 uid="uid://rlv6jlbuqmh5"]
+
+[ext_resource type="Script" uid="uid://c7ta55ciyqj8t" path="res://Codes/main.gd" id="1_r34rm"]
+[ext_resource type="PackedScene" uid="uid://dk6mfqrt8t24h" path="res://Scene/mob.tscn" id="1_sblpm"]
+[ext_resource type="PackedScene" uid="uid://gcu8g53unilv" path="res://Scene/player.tscn" id="2_r34rm"]
+
+[sub_resource type="Curve2D" id="Curve2D_sblpm"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 36, 37, 0, 0, 0, 0, 1117, 46, 0, 0, 0, 0, 1113, 592, 0, 0, 0, 0, 34, 592, 0, 0, 0, 0, 36, 37)
+}
+point_count = 5
+
+[sub_resource type="Curve2D" id="Curve2D_r34rm"]
+
+[node name="Node" type="Node" unique_id=1512183340]
+script = ExtResource("1_r34rm")
+mob_scene = ExtResource("1_sblpm")
+
+[node name="Mobtimer" type="Timer" parent="." unique_id=1442196393]
+wait_time = 0.7
+
+[node name="Scoretimer" type="Timer" parent="." unique_id=2023826635]
+
+[node name="Starttimer" type="Timer" parent="." unique_id=223193161]
+wait_time = 2.0
+one_shot = true
+
+[node name="Marker2D" type="Marker2D" parent="." unique_id=149950603]
+position = Vector2(356, 281)
+
+[node name="Player" parent="." unique_id=1572380835 instance=ExtResource("2_r34rm")]
+position = Vector2(517, 166)
+metadata/_edit_group_ = true
+
+[node name="Mob" parent="." unique_id=863745720 instance=ExtResource("1_sblpm")]
+position = Vector2(270, 101)
+
+[node name="Mobpath" type="Path2D" parent="." unique_id=1400930486]
+position = Vector2(0, 4)
+curve = SubResource("Curve2D_sblpm")
+
+[node name="MobSpawnLocation" type="Path2D" parent="Mobpath" unique_id=1246314759]
+curve = SubResource("Curve2D_r34rm")
+
+[connection signal="timeout" from="Mobtimer" to="." method="_on_mobtimer_timeout"]
+[connection signal="timeout" from="Scoretimer" to="." method="_on_scoretimer_timeout"]
+[connection signal="timeout" from="Starttimer" to="." method="_on_starttimer_timeout"]
+[connection signal="hit" from="Player" to="." method="gameover"]
